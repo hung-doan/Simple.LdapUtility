@@ -12,7 +12,8 @@ namespace UnitTest.Simple.LdapUtiity
         public string validPathByFullyDNS = "LDAP://rims.local";
 
         public string validUserName = "test";
-        public string validPassword = "Abc123456";
+        public string validUserName2 = "hungdoan";
+        public string validPassword = "Pass123456";
 
         public string inValidPath = "LDAP://192.168.1._";
         public string inValidUserName = "test_";
@@ -52,6 +53,20 @@ namespace UnitTest.Simple.LdapUtiity
             var utility = new LdapUtility(validPathByIP, validUserName, inValidPassword);
             var isAuthenticated = utility.Authenticate();
             Assert.IsFalse(isAuthenticated);
+        }
+        [TestMethod]
+        public void Find_Existence_User()
+        {
+            var utility = new LdapUtility(validPathByIP, validUserName, validPassword);
+            var userInfo = utility.FindUser(validUserName2);
+            Assert.IsNotNull(userInfo);
+        }
+        [TestMethod]
+        public void Find_Not_Existence_User()
+        {
+            var utility = new LdapUtility(validPathByIP, validUserName, validPassword);
+            var userInfo = utility.FindUser(inValidUserName);
+            Assert.IsNull(userInfo);
         }
     }
 }
